@@ -1,0 +1,49 @@
+services:
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: tfg-chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage/chroma:/data
+    environment:
+      - IS_PERSISTENT=TRUE
+    networks:
+      - tfg-net
+
+  backend:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    container_name: tfg-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./agent/data/raw:/app/data/raw
+      - ./agent/storage:/app/storage
+      - ./agent/data/legal:/app/data/legal
+    depends_on:
+      - chroma
+    restart: on-failure
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - tfg-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tfg-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - tfg-net
+
+networks:
+  tfg-net:
+    driver: bridge

@@ -1,0 +1,48 @@
+.lottie-wrapper,
+.lottie-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lottie-fallback {
+  padding: 12px;
+}
+
+.fallback-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Animaciones de fallback */
+.fallback-svg--spin {
+  animation: spin 1.2s linear infinite;
+}
+
+.fallback-svg--pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.fallback-svg--float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Puntos de typing con animación escalonada */
+.dot {
+  animation: dotBounce 1.4s ease-in-out infinite;
+}
+
+.dot-1 { animation-delay: 0s; }
+.dot-2 { animation-delay: 0.2s; }
+.dot-3 { animation-delay: 0.4s; }
+
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
